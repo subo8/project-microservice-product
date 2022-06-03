@@ -11,6 +11,7 @@
 	<groupId>com.mini-2</groupId>
 	<artifactId>spring-boot-microservice-1-product</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	<name>spring-boot-microservice-1-product</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -78,6 +79,10 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
+					<!--For auto generation docker file-->
+					<image>
+						<name>mini-2/${project.artifactId}</name>
+					</image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
