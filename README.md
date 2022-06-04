@@ -35,25 +35,25 @@ Authorization: Basic cmFuZG9tU2VjdXJlS2V5VXNlcm5hbWUhOnJhbmRvbVNlY3VyZUtleVBhc3N
 
 #### Docker commands
 
-
-
-
 ````
 1.Create jar file
-mvn clean install
+mvn clean install -Dmaven.test.skip
 
 2.Run app with mvn
 mvn spring-boot:run
 
 3.Create docker image
-docker build . -t mini-2/product
+docker build . -t subo8/mini2-product
 
 4.Docker run
-docker run -p 3333:3333 mini-2/product
+docker run -d --network=backend --name=product -p 3333:3333 subo8/mini2-product
 
 5. Push images to docker hub
 docker login
-docker push docker.io/mini-2/product:latest
+//optional
+docker tag mini2/eureka:latest subo8/mini2-eureka:latest
+
+docker push subo8/mini2-product
 
 Optional
 4.Create docker file automaticaly by paketobuildpacks
