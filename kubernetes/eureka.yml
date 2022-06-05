@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eureka
+  labels:
+    app: mini2-eureka
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mini2-eureka
+  template:
+    metadata:
+      labels:
+        app: mini2-eureka
+    spec:
+      containers:
+        - name: mini2-eureka
+          image: subo8/mini2-eureka:latest
+          ports:
+            - containerPort: 8761
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: eshop-configmap
+                  key: SPRING_PROFILES_ACTIVE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: eureka
+spec:
+  selector:
+    app: mini2-eureka
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8761
+      targetPort: 8761
+      nodePort: 30090

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: main-db
+  labels:
+    app: main-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: main-db
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: main-db
+    spec:
+      containers:
+      - name: main-db
+        image: mysql:latest
+        ports:
+          - containerPort: 3306
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secret
+                key: password
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: main-db
+spec:
+  selector:
+    app: main-db
+  ports:
+    - protocol: TCP
+      port: 3306
+      targetPort: 3306

@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway
+  labels:
+    app: mini2-apigateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mini2-apigateway
+  template:
+    metadata:
+      labels:
+        app: mini2-apigateway
+    spec:
+      containers:
+        - name: mini2-apigateway
+          image: subo8/mini2-apigateway:latest
+          ports:
+            - containerPort: 5555
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              valueFrom:
+                configMapKeyRef:
+                  name: eshop-configmap
+                  key: SPRING_PROFILES_ACTIVE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: api-gateway
+spec:
+  selector:
+    app: mini2-apigateway
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 5555
+      targetPort: 5555
+      nodePort: 30060
