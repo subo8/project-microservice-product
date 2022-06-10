@@ -13,7 +13,8 @@ Content-Type: application/json
 {
     "name": "Nike-Air",
     "vendor": "Nike",
-    "category": "Sneakers"
+    "category": 1,
+    "price": 200
 }
 ```
 

@@ -1,12 +1,6 @@
--- DROP TABLE IF EXISTS product;
---
--- CREATE TABLE `product` (
---     `id` integer AUTO_INCREMENT  PRIMARY KEY,
---     `category` varchar(100) NOT NULL,
---     `create_time` date DEFAULT NOT NULL,
---     `name` varchar(100) NOT NULL,
---     `vendor` varchar(100) NOT NULL
--- );
+INSERT INTO eshop.categories(category_name, description)
+VALUES('Sneakers', 'For sneakers');
 
-INSERT INTO `product` (`category`, `create_time`, `name`, `vendor` )
-VALUES ('Sneaker', CURDATE(),'Nike Air-123', 'Nike');
+INSERT INTO eshop.product
+(create_time, name, price, vendor, category_id)
+VALUES('2022-06-07 20:02:48.421772000', 'Nike-Air', 100000, 'Nike', 1);
