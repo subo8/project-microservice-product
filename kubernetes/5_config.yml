@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: config-deployment
+  labels:
+    app: mini2-config
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mini2-config
+  template:
+    metadata:
+      labels:
+        app: mini2-config
+    spec:
+      containers:
+        - name: mini2-config
+          image: subo8/mini2-config:latest
+          ports:
+            - containerPort: 8071
+          env:
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              valueFrom:
+                configMapKeyRef:
+                  name: eshop-configmap
+                  key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: config
+spec:
+  selector:
+    app: mini2-config
+  ports:
+    - protocol: TCP
+      port: 8071
+      targetPort: 8071

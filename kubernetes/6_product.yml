@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+  labels:
+    app: mini2-product
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mini2-product
+  template:
+    metadata:
+      labels:
+        app: mini2-product
+    spec:
+      containers:
+        - name: mini2-product
+          image: subo8/mini2-product:latest
+          ports:
+            - containerPort: 3333
+          env:
+            - name: SPRING_CONFIG_IMPORT
+              valueFrom:
+                configMapKeyRef:
+                  name: eshop-configmap
+                  key: SPRING_CONFIG_IMPORT
+            - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+              valueFrom:
+                configMapKeyRef:
+                  name: eshop-configmap
+                  key: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+spec:
+  selector:
+    app: mini2-product
+  ports:
+    - protocol: TCP
+      port: 3333
+      targetPort: 3333

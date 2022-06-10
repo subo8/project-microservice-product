@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-deployment
+  name: transaction-deployment
   labels:
-    app: mini2-order
+    app: mini2-transaction
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: mini2-order
+      app: mini2-transaction
   template:
     metadata:
       labels:
-        app: mini2-order
+        app: mini2-transaction
     spec:
       containers:
-        - name: mini2-order
-          image: subo8/mini2-order:latest
+        - name: mini2-transaction
+          image: subo8/mini2-transaction:latest
           ports:
-            - containerPort: 4444
+            - containerPort: 8084
           env:
-            - name: SPRING_PROFILES_ACTIVE
+            - name: SPRING_CONFIG_IMPORT
               valueFrom:
                 configMapKeyRef:
                   name: eshop-configmap
-                  key: SPRING_PROFILES_ACTIVE
+                  key: SPRING_CONFIG_IMPORT
             - name: EUREKA_CLIENT_SERVICEURL_DEFAULTZONE
               valueFrom:
                 configMapKeyRef:
@@ -34,12 +34,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: order-service
+  name: transaction-service
 spec:
   selector:
-    app: mini2-order
+    app: mini2-transaction
     type: LoadBalancer
   ports:
     - protocol: TCP
-      port: 4444
-      targetPort: 4444
+      port: 8084
+      targetPort: 8084

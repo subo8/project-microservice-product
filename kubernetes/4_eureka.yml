@@ -19,12 +19,12 @@ spec:
           image: subo8/mini2-eureka:latest
           ports:
             - containerPort: 8761
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              valueFrom:
-                configMapKeyRef:
-                  name: eshop-configmap
-                  key: SPRING_PROFILES_ACTIVE
+#          env:
+#            - name: SPRING_PROFILES_ACTIVE
+#              valueFrom:
+#                configMapKeyRef:
+#                  name: eshop-configmap
+#                  key: SPRING_PROFILES_ACTIVE
 ---
 apiVersion: v1
 kind: Service
